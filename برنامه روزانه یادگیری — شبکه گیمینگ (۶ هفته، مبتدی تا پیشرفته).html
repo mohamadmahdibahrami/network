@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf8" />
+    <meta
+      name="viewport"
+      content="width=device-width,initial-scale=1,viewport-fit=cover"
+    />
+    <style>
+      :root {
+        box-sizing: border-box;
+        padding-top: env(safe-area-inset-top, 0px);
+        padding-bottom: env(safe-area-inset-bottom, 0px);
+      }
+      html {
+        direction: rtl;
+        scroll-padding-top: env(safe-area-inset-top, 0px);
+      }
+    </style>
+    <style>
+      :root {
+        color-scheme: light dark;
+        --md-bg: #fff;
+        --md-text: rgba(0, 0, 0, 0.8);
+        --md-muted: rgba(0, 0, 0, 0.6);
+        --md-fill: rgba(0, 0, 0, 0.04);
+        --md-fill-strong: rgba(0, 0, 0, 0.06);
+        --md-rule: rgba(0, 0, 0, 0.1);
+        --md-rule-strong: rgba(0, 0, 0, 0.16);
+        --md-link: hsl(210 100% 45%);
+      }
+      @media (prefers-color-scheme: dark) {
+        :root:where(:not([data-theme="light"])) {
+          --md-bg: #0d0d0d;
+          --md-text: rgba(255, 255, 255, 0.85);
+          --md-muted: rgba(255, 255, 255, 0.6);
+          --md-fill: rgba(255, 255, 255, 0.06);
+          --md-fill-strong: rgba(255, 255, 255, 0.09);
+          --md-rule: rgba(255, 255, 255, 0.14);
+          --md-rule-strong: rgba(255, 255, 255, 0.22);
+          --md-link: hsl(210 100% 72%);
+        }
+      }
+      :root[data-theme="dark"] {
+        color-scheme: dark;
+        --md-bg: #0d0d0d;
+        --md-text: rgba(255, 255, 255, 0.85);
+        --md-muted: rgba(255, 255, 255, 0.6);
+        --md-fill: rgba(255, 255, 255, 0.06);
+        --md-fill-strong: rgba(255, 255, 255, 0.09);
+        --md-rule: rgba(255, 255, 255, 0.14);
+        --md-rule-strong: rgba(255, 255, 255, 0.22);
+        --md-link: hsl(210 100% 72%);
+      }
+      :root[data-theme="light"] {
+        color-scheme: light;
+      }
+      @media print {
+        :root,
+        :root[data-theme="dark"] {
+          color-scheme: light;
+          --md-bg: #fff;
+          --md-text: rgba(0, 0, 0, 0.8);
+          --md-muted: rgba(0, 0, 0, 0.6);
+          --md-fill: rgba(0, 0, 0, 0.04);
+          --md-fill-strong: rgba(0, 0, 0, 0.06);
+          --md-rule: rgba(0, 0, 0, 0.1);
+          --md-rule-strong: rgba(0, 0, 0, 0.16);
+          --md-link: hsl(210 100% 45%);
+        }
+      }
+      body {
+        background: var(--md-bg);
+        color: var(--md-text);
+        max-width: 720px;
+        margin: 0 auto;
+        padding: 32px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        font: 14px/1.55 -apple-system, BlinkMacSystemFont, "SF Pro", "Segoe UI",
+          sans-serif;
+        overflow-wrap: break-word;
+      }
+      body > :first-child {
+        margin-top: 0;
+      }
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6 {
+        margin: 6px 0 0;
+        line-height: 1.25;
+        font-weight: 600;
+        text-wrap: balance;
+      }
+      h1 {
+        font-size: 1.35em;
+      }
+      h2 {
+        font-size: 1.15em;
+        color: var(--md-muted);
+      }
+      h3,
+      h4,
+      h5,
+      h6 {
+        font-size: 1em;
+      }
+      p,
+      ul,
+      ol,
+      blockquote,
+      table,
+      pre,
+      hr {
+        margin: 0;
+      }
+      strong {
+        font-weight: 600;
+      }
+      a {
+        color: var(--md-link);
+        text-decoration: none;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+      ul,
+      ol {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        padding-left: 22px;
+      }
+      ul {
+        list-style: disc;
+      }
+      ol {
+        list-style: decimal;
+      }
+      :is(li, td, th) > * + :is(p, ul, ol, blockquote) {
+        margin-top: 6px;
+      }
+      blockquote {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        border-left: 2px solid var(--md-rule);
+        padding-left: 10px;
+        color: var(--md-muted);
+      }
+      :not(pre) > code {
+        background: var(--md-fill);
+        padding: 1px 3px;
+        border-radius: 4px;
+        font: 0.92em "SF Mono", ui-monospace, Menlo, Consolas, monospace;
+      }
+      a > code {
+        background: none;
+        color: inherit;
+      }
+      pre {
+        background: var(--md-fill);
+        padding: 10px 12px;
+        border-radius: 6px;
+        overflow-x: auto;
+        font: 12px/1.5 "SF Mono", ui-monospace, Menlo, Consolas, monospace;
+        margin-block: 4px;
+      }
+      pre code {
+        background: none;
+        padding: 0;
+        font: inherit;
+      }
+      table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 2px;
+        font: inherit;
+      }
+      th,
+      td {
+        padding: 6px 8px;
+        border-radius: 3px;
+        text-align: left;
+        vertical-align: top;
+      }
+      th {
+        background: var(--md-fill-strong);
+        font-weight: 600;
+      }
+      td {
+        background: var(--md-fill);
+      }
+      :is(th, td) :not(pre) > code {
+        background: transparent;
+      }
+      hr {
+        border: 0;
+        border-top: 1px solid var(--md-rule-strong);
+        margin-block: 10px;
+      }
+      img {
+        max-width: 100%;
+        height: auto;
+        border-radius: 4px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>
+      برنامه یادگیری — پروژه Gaming Network (نسخه ۲: از مبتدی تا سطح پیشرفته)
+    </h1>
+    <p>
+      این نسخه اصلاح‌شده‌ست: هفته‌های اول سریع‌تر و فشرده‌تر شدن (چون فرض بر
+      اینه پایه‌ات خالی نیست)، و از هفته سوم به بعد سطح واقعاً بالا می‌ره —
+      چیزهایی که سرویس‌های واقعی گیمینگ (ElitePing/GodPing/ExitLag) واقعاً ازشون
+      استفاده می‌کنن، نه فقط یک Tunnel ساده. مباحث مبتدی حذف نشدن، فقط فشرده‌تر
+      و کم‌حرف‌تر ارائه شدن تا جا برای عمق باز بشه.
+    </p>
+    <p><strong>ساختار کلی برنامه (۶ هفته، ۴۲ روز):</strong></p>
+    <ul>
+      <li>هفته ۱: پایه لینوکس/امنیت/ابزار — فشرده</li>
+      <li>هفته ۲: Baseline و تحلیل مسیر واقعی</li>
+      <li>هفته ۳: WireGuard + Tuning دقیق (Kernel-level)</li>
+      <li>هفته ۴: Obfuscation واقعی (Xray/Reality) + Multi-protocol</li>
+      <li>هفته ۵: Observability (Monitoring واقعی) + Containerization</li>
+      <li>
+        هفته ۶: Routing پیشرفته سمت Client + Load-testing + سخت‌سازی امنیتی
+        نهایی
+      </li>
+    </ul>
+    <hr />
+    <h2>نقشه تکنولوژی‌ها (مرجع کلی — قبل از شروع بخون)</h2>
+    <h3>شبکه (Networking)</h3>
+    <ul>
+      <li>
+        <strong>پایه:</strong> TCP/UDP, ICMP, Latency/Jitter/Loss/Burst Loss,
+        NAT, CGNAT, MTU/MSS, Route/Traceroute
+      </li>
+      <li>
+        <strong>سطح متوسط:</strong> DNS (recursive vs authoritative, DNS
+        resolution چطور روی لتنسی اثر می‌ذاره)، QUIC (پروتکل HTTP/3، چون بعضی
+        بازی‌ها و سرویس‌ها ازش استفاده می‌کنن)، IPv6 پایه
+      </li>
+      <li>
+        <strong>سطح پیشرفته:</strong> BGP concept (فقط مفهوم مسیریابی بین AS ها،
+        نه پیاده‌سازی)، Anycast concept، QoS و Traffic Shaping (<code>tc</code>,
+        HTB/FQ-CoDel)، Congestion Control algorithms (Cubic vs BBR)
+      </li>
+      <li>
+        <strong>مخصوص گیمینگ:</strong> چرا Burst Loss بدتر از Average Loss حس
+        می‌شه، مفهوم Jitter Buffer در بازی‌های آنلاین
+      </li>
+    </ul>
+    <h3>لینوکس (سمت VPS)</h3>
+    <ul>
+      <li>
+        <strong>پایه:</strong> User/permission/sudo، systemd، journalctl، ufw
+      </li>
+      <li>
+        <strong>سطح متوسط:</strong> nftables (جایگزین مدرن iptables)، sysctl
+        kernel tuning (<code>net.core.*</code>, <code>net.ipv4.tcp_*</code>)،
+        cron/systemd timers
+      </li>
+      <li>
+        <strong>سطح پیشرفته:</strong> Docker/Podman برای ایزوله‌سازی سرویس‌ها،
+        bash/Python scripting برای عملیات خودکار، log aggregation
+      </li>
+    </ul>
+    <h3>Tunneling / VPN</h3>
+    <ul>
+      <li><strong>پایه:</strong> WireGuard ساده (Client-Server)</li>
+      <li>
+        <strong>سطح متوسط:</strong> MTU/MSS Clamping دقیق، Multiple Peer،
+        Keepalive tuning
+      </li>
+      <li>
+        <strong>سطح پیشرفته:</strong> Xray-core با پروتکل VLESS+Reality یا
+        Shadowsocks-2022، مفهوم Multi-hop (Client → Relay1 → Relay2 → Game
+        Server)، Domain Fronting / SNI masking (فقط مفهومی)
+      </li>
+    </ul>
+    <h3>Observability / Monitoring</h3>
+    <ul>
+      <li>
+        Prometheus (جمع‌آوری متریک)، Grafana (نمایش گرافیکی)، Node Exporter،
+        Blackbox Exporter (برای ping/latency خودکار)
+      </li>
+      <li>Loki یا فایل لاگ ساختاریافته برای متمرکز کردن لاگ‌ها</li>
+    </ul>
+    <h3>برنامه‌نویسی/اتوماسیون</h3>
+    <ul>
+      <li>
+        Python: <code>subprocess</code>, <code>asyncio</code> (برای اجرای موازی
+        چند تست شبکه هم‌زمان), <code>pandas</code> برای تحلیل، ذخیره در SQLite
+        یا InfluxDB (time-series database مخصوص متریک)
+      </li>
+      <li>
+        API ساده (FastAPI یا Flask) برای اینکه بعداً بشه دیتای متریک رو از راه
+        دور خوند
+      </li>
+    </ul>
+    <h3>امنیت</h3>
+    <ul>
+      <li>
+        SSH hardening، fail2ban، nftables rate-limiting، مفهوم WAF (برای فاز
+        خیلی بعدتر اگه دشبورد وب داشته باشین)
+      </li>
+    </ul>
+    <p>
+      <strong>نکته مهم:</strong> BGP واقعی، Anycast واقعی، ML-based Smart
+      Routing، و SRE سطح Production هنوز جزو این فاز نیستن — فقط باید مفهومشون
+      رو بشناسی، نه پیاده‌سازی کنی.
+    </p>
+    <hr />
+    <h2>هفته ۱ — پایه فشرده (لینوکس + امنیت + ابزار)</h2>
+    <h3>روز ۱ — VPS + SSH Hardening + Key-based Auth</h3>
+    <pre><code>ssh-keygen -t ed25519 -C &#34;mehdi-vps&#34;
+ssh-copy-id user@vps_ip
+</code></pre>
+    <p>در <code>/etc/ssh/sshd_config</code>:</p>
+    <pre><code>PasswordAuthentication no
+PermitRootLogin prohibit-password
+Port 2222   # تغییر پورت پیش‌فرض، یک لایه امنیتی ساده اضافه
+</code></pre>
+    <p>یک کاربر غیر روت با sudo بساز. <code>systemctl restart sshd</code>.</p>
+    <h3>روز ۲ — nftables (نه ufw ساده — مستقیم بریم سراغ ابزار واقعی)</h3>
+    <p>
+      به‌جای <code>ufw</code>، مستقیم <code>nftables</code> رو یاد بگیر، چون
+      بعداً برای rate-limiting و NAT پیشرفته لازمش داری:
+    </p>
+    <pre><code>sudo apt install nftables -y
+sudo nft list ruleset
+</code></pre>
+    <p>یک ruleset پایه بساز: <code>/etc/nftables.conf</code></p>
+    <pre><code>table inet filter {
+  chain input {
+    type filter hook input priority 0; policy drop;
+    ct state established,related accept
+    iif lo accept
+    tcp dport 2222 accept
+    ip protocol icmp accept
+  }
+}
+</code></pre>
+    <p>
+      <code>sudo nft -f /etc/nftables.conf</code> و
+      <code>sudo systemctl enable nftables</code>. همراهش
+      <code>fail2ban</code> رو هم نصب و روی پورت جدید SSH تنظیم کن.
+    </p>
+    <h3>روز ۳ — File system، Log، و Kernel Parameters اولیه</h3>
+    <p>
+      <code>journalctl</code>، <code>chmod/chown</code> رو مرور کن (اگه بلدی رد
+      شو، فقط تست کن دستورات یادت هست). علاوه بر این، یک نگاه به
+      <code>sysctl</code> بنداز — این چیزیه که هفته‌های بعد جدی می‌شه:
+    </p>
+    <pre><code>sysctl net.ipv4.ip_forward
+sysctl net.core.rmem_max
+sysctl net.core.wmem_max
+</code></pre>
+    <p>فقط ببین این پارامترها چی هستن، هنوز تغییرشون نده.</p>
+    <h3>روز ۴ — Network Interface، Route Table، و DNS</h3>
+    <pre><code>ip a
+ip r
+ss -tulpn
+resolvectl status   # یا cat /etc/resolv.conf
+</code></pre>
+    <p>
+      یاد بگیر: تفاوت DNS recursive resolver با authoritative، و اینکه چرا یک
+      DNS کند (مثل بعضی DNSهای داخلی) می‌تونه لتنسی
+      <em>قبل از شروع بازی</em> اضافه کنه (connection setup delay). تست:
+      <code>dig game-server.com</code> و مقایسه زمان جواب DNSهای مختلف (8.8.8.8
+      در برابر DNS ISP خودت).
+    </p>
+    <h3>روز ۵ — systemd Service + Timer (به‌جای فقط cron)</h3>
+    <p>
+      یک systemd service و یک systemd timer (جایگزین مدرن‌تر cron) بساز که هر ۵
+      دقیقه یک اسکریپت اجرا کنه. این پایه‌ی اتوماسیون هفته‌های بعده.
+    </p>
+    <h3>روز ۶ — Toolchain اندازه‌گیری کامل</h3>
+    <pre><code>sudo apt install mtr-tiny traceroute iperf3 tcpdump nmap -y
+</code></pre>
+    <p>
+      <code>tcpdump</code> رو این بار عمیق‌تر از قبل یاد بگیر — فیلتر زدن روی
+      پورت و پروتکل:
+    </p>
+    <pre><code>sudo tcpdump -i any udp port 51820 -n
+</code></pre>
+    <p>این مهارت توی هفته ۳ برای دیباگ WireGuard حیاتیه.</p>
+    <h3>روز ۷ — مرور نظری فشرده</h3>
+    <p>
+      TCP/UDP، Latency/Jitter/Loss/Burst Loss، NAT، <strong>CGNAT</strong> (تست
+      با موبایل روی همراه‌اول/ایرانسل جدا — آیا IP عمومی واقعی داری؟)، و این‌بار
+      اضافه کن: <strong>QUIC چیست</strong> (چرا بعضی سرویس‌ها دارن از UDP-based
+      HTTP/3 استفاده می‌کنن و این چه ربطی به gaming/streaming داره).
+    </p>
+    <hr />
+    <h2>هفته ۲ — Baseline واقعی + تحلیل مسیر عمیق</h2>
+    <h3>روز ۸ — انتخاب Scope (بازی‌ها/ISPها) + IPv6 Check</h3>
+    <p>
+      لیست بازی‌ها و ISPها رو بساز (مثل قبل)، ولی این‌بار چک کن هرکدوم IPv6 هم
+      پشتیبانی می‌کنن یا نه (<code>ping6</code>, <code>mtr -6</code>) — چون مسیر
+      IPv6 می‌تونه کاملاً متفاوت از IPv4 باشه.
+    </p>
+    <h3>روز ۹ تا ۱۰ — traceroute ICMP + UDP + TCP، مقایسه سه‌گانه</h3>
+    <p>
+      همون‌طور که قبلاً گفتیم: <code>mtr</code>، <code>mtr -u</code>،
+      <code>tcptraceroute</code> رو برای هر بازی×ISP بزن و در یک جدول یکجا
+      مقایسه کن. این‌بار به‌جای فقط ذخیره کردن خروجی خام، برای هرکدوم AS Number
+      مربوط به هر hop رو هم پیدا کن (با <code>whois &lt;ip&gt;</code> یا
+      سایت‌هایی مثل bgp.he.net) تا بفهمی ترافیکت از کدوم شبکه‌های Transit رد
+      می‌شه.
+    </p>
+    <h3>
+      روز ۱۱ تا ۱۲ — Baseline رسمی (RTT + iperf3 UDP Jitter) در بازه‌های زمانی
+      مختلف
+    </h3>
+    <p>
+      مثل قبل، ولی این‌بار iperf3 رو با پارامترهای دقیق‌تر بزن (شبیه‌سازی نرخ
+      بسته واقعی بازی، نه فقط bandwidth عمومی):
+    </p>
+    <pre><code>iperf3 -c &lt;vps_ip&gt; -u -b 1M -l 100 -t 60   # بسته‌های کوچیک، شبیه ترافیک بازی
+</code></pre>
+    <p>
+      پرچم <code>-l 100</code> یعنی سایز بسته ۱۰۰ بایت، نزدیک‌تر به واقعیت
+      پکت‌های game state.
+    </p>
+    <h3>روز ۱۳ — تحلیل: Domestic / Transit / Destination + AS Path</h3>
+    <p>
+      جدول قبلی رو با ستون AS Path تکمیل کن. سعی کن بفهمی مشکل واقعاً کجاست:
+      زیرساخت داخلی، یک Transit خاص بین‌المللی، یا خود دیتاسنتر مقصد.
+    </p>
+    <h3>روز ۱۴ — جمع‌بندی + انتخاب Candidate Route</h3>
+    <p>
+      بر اساس داده‌ها، مشخص کن VPS فعلی‌ت (لوکیشن، Provider) بهترین انتخابه یا
+      باید یک VPS دوم در لوکیشن دیگه هم تست کنی (مثلاً فنلاند یا فرانسه به‌جای
+      فقط آلمان) تا مسیر رو مقایسه کنی.
+    </p>
+    <hr />
+    <h2>
+      هفته ۳ — WireGuard + Kernel-Level Tuning (سطح بالاتر از یک تانل ساده)
+    </h2>
+    <h3>
+      روز ۱۵ تا ۱۶ — نصب و اتصال پایه (سریع رد شو اگه هفته قبل تمرین کردی)
+    </h3>
+    <p>
+      نصب سرور/کلاینت WireGuard، تست اتصال با <code>curl ifconfig.me</code>، باز
+      کردن پورت روی <code>nftables</code> (نه ufw).
+    </p>
+    <h3>روز ۱۷ — MTU/MSS Clamping دقیق (سطح فنی، نه فقط عدد گذاشتن)</h3>
+    <p>
+      به‌جای فقط گذاشتن <code>MTU = 1420</code>، یاد بگیر MSS Clamping رو در سطح
+      nftables/iptables انجام بدی تا برای TCP هم به‌صورت خودکار درست بشه:
+    </p>
+    <pre><code>nft add rule inet filter forward tcp flags syn tcp option maxseg size set rt mtu
+</code></pre>
+    <p>
+      و برای پیدا کردن MTU دقیق مسیر (نه فقط حدس)، از Path MTU Discovery استفاده
+      کن:
+    </p>
+    <pre><code>ping -M do -s 1472 8.8.8.8   # کم کردن تدریجی سایز تا جواب بگیری
+</code></pre>
+    <h3>روز ۱۸ — Kernel Network Tuning (این روز کاملاً جدیده و سطح بالاتره)</h3>
+    <p>
+      پارامترهای sysctl که مستقیم روی throughput/latency اثر می‌ذارن رو تنظیم
+      کن:
+    </p>
+    <pre><code>net.core.default_qdisc = fq
+net.ipv4.tcp_congestion_control = bbr
+net.core.rmem_max = 26214400
+net.core.wmem_max = 26214400
+</code></pre>
+    <p>
+      <strong>BBR</strong> الگوریتم congestion control گوگله که برای مسیرهای
+      پرلتنسی و ناپایدار (دقیقاً وضعیت شبکه ایران) معمولاً بهتر از Cubic پیش‌فرض
+      عمل می‌کنه. فعالش کن و با baseline قبلی (بدون BBR) مقایسه کن.
+    </p>
+    <pre><code>sudo modprobe tcp_bbr
+echo &#34;tcp_bbr&#34; | sudo tee -a /etc/modules-load.d/modules.conf
+sysctl -p
+</code></pre>
+    <h3>روز ۱۹ — QoS / Traffic Shaping پایه با tc</h3>
+    <p>
+      یاد بگیر چطور با <code>tc</code> (traffic control) و الگوریتم
+      <code>fq_codel</code> صف بسته‌ها رو مدیریت کنی تا Bufferbloat (که باعث lag
+      ناگهانی زیر بار می‌شه) کاهش پیدا کنه:
+    </p>
+    <pre><code>sudo tc qdisc add dev eth0 root fq_codel
+</code></pre>
+    <p>
+      این مفهوم رو تست کن: وقتی VPS همزمان یک دانلود سنگین و ترافیک بازی داره،
+      آیا latency بازی بالا می‌ره؟ با و بدون <code>fq_codel</code> مقایسه کن.
+    </p>
+    <h3>
+      روز ۲۰ — تست پایداری روی اپراتورهای مختلف + شروع مستندسازی Detection
+    </h3>
+    <p>
+      مثل قبل تست کن WireGuard روی همراه‌اول/ایرانسل چقدر پایداره. این‌بار با
+      <code>tcpdump</code> سمت کلاینت ببین آیا پکت‌های WireGuard قبل از رسیدن
+      جواب throttle/drop می‌شن (نشونه‌ی DPI detection).
+    </p>
+    <h3>روز ۲۱ — مرور + مستندسازی مشکلات رایج</h3>
+    <hr />
+    <h2>هفته ۴ — Obfuscation واقعی (اینجا سطح واقعاً بالا می‌ره)</h2>
+    <h3>روز ۲۲ — نصب Xray-core و فهم VLESS</h3>
+    <p>به‌جای فقط خوندن تئوری Obfuscation، این هفته واقعاً پیاده‌ش می‌کنی:</p>
+    <pre><code>bash -c &#34;$(curl -L https://github.com/XTLS/Xray-install/raw/main/install-release.sh)&#34;
+</code></pre>
+    <p>
+      مفهوم VLESS رو یاد بگیر: یک پروتکل سبک‌تر از VMess که برای Reality طراحی
+      شده.
+    </p>
+    <h3>روز ۲۳ — راه‌اندازی Reality (شبیه‌سازی TLS واقعی یک سایت معروف)</h3>
+    <p>
+      Reality با گرفتن SNI یک سایت واقعی (بدون نیاز به دامنه/گواهی خودت)، ترافیک
+      رو طوری جا می‌زنه که از دید DPI شبیه یک اتصال HTTPS معمولی به یک سایت
+      معتبره. کانفیگ سرور و کلاینت رو بساز و تست کن.
+    </p>
+    <h3>
+      روز ۲۴ — مقایسه سه‌گانه: WireGuard خام vs Xray/Reality vs Shadowsocks-2022
+    </h3>
+    <p>
+      همون Baseline (RTT/Loss/Jitter) رو این‌بار برای هر سه روش بگیر، هم روی
+      وای‌فای هم روی موبایل‌نت (همراه‌اول/ایرانسل جدا). این مهم‌ترین جدول کل
+      پروژه‌ته.
+    </p>
+    <h3>روز ۲۵ — مفهوم Multi-hop (Client → Relay → Game Server)</h3>
+    <p>
+      یاد بگیر (و اگه وقت داری، تست کن با دو تا VPS ارزون) که چطور ترافیک از یک
+      Relay اول رد بشه و بعد به یک Exit Node دوم برسه. این باعث می‌شه اگه یک
+      relay شناسایی/فیلتر بشه، کل سیستم از کار نیفته.
+    </p>
+    <h3>روز ۲۶ — SNI Masking و Domain Fronting (مفهومی)</h3>
+    <p>
+      فقط در حد فهمیدن مطالعه کن: چطور بعضی سرویس‌ها ترافیکشون رو پشت CDNهای
+      بزرگ (Cloudflare و مشابه) پنهان می‌کنن. پیاده‌سازی کامل این خارج از scope
+      فعلیه، ولی باید مفهومش رو بشناسی برای فازهای بعد.
+    </p>
+    <h3>روز ۲۷ تا ۲۸ — تثبیت Obfuscation Layer + تست نهایی پایداری چندروزه</h3>
+    <p>
+      کانفیگ نهایی (Xray/Reality + BBR + MTU tuning) رو برای ۲۴-۴۸ ساعت روشن نگه
+      دار و پایداریش رو زیر نظر بگیر (قطعی‌ها، افت سرعت در ساعات پیک).
+    </p>
+    <hr />
+    <h2>هفته ۵ — Observability واقعی (Monitoring Stack) + Containerization</h2>
+    <h3>روز ۲۹ — Docker پایه</h3>
+    <pre><code>curl -fsSL https://get.docker.com | sh
+docker run hello-world
+</code></pre>
+    <p>
+      یاد بگیر Container چیست و چرا برای اجرای Prometheus/Grafana ایزوله و تمیز،
+      از نصب مستقیم روی سیستم بهتره.
+    </p>
+    <h3>روز ۳۰ تا ۳۱ — Prometheus + Node Exporter</h3>
+    <p>
+      با <code>docker-compose</code> یک Prometheus بالا بیار که متریک‌های سیستم
+      (CPU، RAM، Network) رو از VPS جمع کنه.
+    </p>
+    <h3>
+      روز ۳۲ — Blackbox Exporter (Ping/Latency خودکار به‌جای اسکریپت دستی)
+    </h3>
+    <p>
+      به‌جای اسکریپت Python هفته قبل (که همچنان به‌عنوان backup خوبه)، Blackbox
+      Exporter رو کانفیگ کن تا هر چند ثانیه یک‌بار خودش ping/latency به سرورهای
+      بازی رو اندازه بگیره و به Prometheus بده.
+    </p>
+    <h3>روز ۳۳ تا ۳۴ — Grafana Dashboard</h3>
+    <p>
+      یک Dashboard بساز که RTT/Jitter/Loss هر بازی×ISP رو به‌صورت گراف زنده نشون
+      بده. این دقیقاً همون چیزیه که برای گزارش به تیم و تصمیم‌گیری روزانه لازمه
+      — دیگه نیازی به نگاه کردن فایل CSV خام نیست.
+    </p>
+    <h3>روز ۳۵ — مرور + مستندسازی معماری Monitoring</h3>
+    <hr />
+    <h2>هفته ۶ — Routing پیشرفته سمت Client + Load Testing + سخت‌سازی نهایی</h2>
+    <h3>روز ۳۶ تا ۳۷ — Policy Routing واقعی (پیاده‌سازی، نه فقط مفهوم)</h3>
+    <p>
+      این‌بار واقعاً پیاده‌سازی کن: فقط ترافیک یک بازی خاص (بر اساس IP مقصد یا
+      پورت) از تانل رد بشه، بقیه ترافیک از مسیر عادی:
+    </p>
+    <pre><code>ip rule add fwmark 100 table 200
+ip route add default via &lt;tunnel_gw&gt; table 200
+nft add rule ... meta mark set 100  # برای ترافیک مشخص
+</code></pre>
+    <p>
+      این دقیقاً چیزیه که شهریار سمت Client بهش نیاز داره — اگه تو این رو از سمت
+      سرور/تئوری بلد باشی، هماهنگی خیلی بهتر می‌شه.
+    </p>
+    <h3>روز ۳۸ — TUN Interface دستی</h3>
+    <p>
+      یک TUN interface ساده بساز و ببین چطور پکت‌های IP خام رو می‌شه از یک
+      برنامه userspace خوند/نوشت (حتی با یک اسکریپت پایتون ساده با کتابخونه
+      <code>pytun</code> یا مشابه). این فهم عمیق‌تری از چیزی می‌ده که
+      WireGuard/Xray زیر پوسته انجام می‌دن.
+    </p>
+    <h3>روز ۳۹ — Load Testing و رفتار زیر فشار</h3>
+    <p>
+      با <code>iperf3</code> چند استریم هم‌زمان (<code>-P 4</code>) بزن و ببین
+      سیستم زیر بار سنگین (شبیه‌سازی چند کاربر هم‌زمان) چطور رفتار می‌کنه.
+      Latency بازی زیر بار چقدر بدتر می‌شه؟
+    </p>
+    <h3>روز ۴۰ — سخت‌سازی امنیتی نهایی (Rate Limiting در nftables)</h3>
+    <pre><code>nft add rule inet filter input tcp dport 2222 limit rate 5/minute accept
+</code></pre>
+    <p>جلوگیری از brute-force و ساده‌ترین نوع سناریوهای DoS در سطح پورت.</p>
+    <h3>روز ۴۱ — یکپارچه‌سازی کامل + تست End-to-End</h3>
+    <p>
+      همه‌چیز با هم: BBR + MTU/MSS Clamping + Xray/Reality + fq_codel + Policy
+      Routing + Monitoring زنده. یک تست کامل ۲۴ ساعته بگیر و از Grafana
+      Dashboard گزارش بگیر.
+    </p>
+    <h3>روز ۴۲ — گزارش نهایی برای متین و شهریار + برنامه فاز بعد</h3>
+    <p>سند نهایی شامل:</p>
+    <ol>
+      <li>
+        مقایسه سه‌گانه پروتکل‌ها (WireGuard خام / Reality / Shadowsocks) با عدد
+      </li>
+      <li>تاثیر BBR و QoS tuning روی Latency/Jitter</li>
+      <li>معماری Monitoring و لینک Dashboard</li>
+      <li>جمع‌بندی Policy Routing برای هماهنگی با کار شهریار</li>
+      <li>
+        پیشنهاد برای فاز بعد (احتمالاً: Multi-gateway واقعی، Load Balancing بین
+        چند Exit Node، شروع فکر کردن به معماری کلاینت نهایی)
+      </li>
+    </ol>
+    <hr />
+    <h2>نکته پایانی</h2>
+    <p>
+      این نسخه دیگه یک &quot;آموزش مقدماتی شبکه&quot; نیست — تا آخرش، تجربه عملی
+      با ابزارهایی داری که واقعاً پشت سرویس‌های تجاری گیمینگ هستن (Xray/Reality،
+      BBR، fq_codel، Policy Routing، Prometheus/Grafana). اگه جایی احساس کردی
+      خیلی سریع پیش رفتیم، همون روز رو تکرار کن — سرعت بالاتر رفتن مهم‌تر از رد
+      کردنه، ولی عقب انداختن بی‌دلیل هم نکن.
+    </p>
+  </body>
+</html>

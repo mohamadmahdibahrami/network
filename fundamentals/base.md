@@ -1,5 +1,7 @@
 # Network devices
 
+The main goal of networking is to allow two hosts to share data with one another
+
 ## Host
 
 Hosts are devices that send or recieve traffic: computers, phones, printers, servers, cloud servers, etc. Also any Internet of Things devices(IoT) in our house: TV, Refrigerator, etc.
@@ -43,7 +45,7 @@ Repeaters regenerate signals & allow comunications across greater distances
 
 ## Hub
 
-Hubs act as a multi-host repeaters they facilitate scaling comunication with additional hosts
+Hubs act as a multi-host repeaters they !facilitate scaling comunication with additional hosts
 
 the problem with hub is that everyone in the network recieves everyone else's data
 
@@ -59,6 +61,8 @@ Switch is a combination of hub & bridges therefore they have multiple ports & th
 
 ## Routers
 
-Routers facilitate communication between networks
+Routers !facilitate communication between networks‍‍‍‍‍
 
 **Routing** is the communication of data between networks
+
+facilitate = آسان کردن
